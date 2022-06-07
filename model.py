@@ -1,0 +1,30 @@
+import torch
+import torch.nn as nn
+# import torchvision.models as models
+
+class Basic_Model(nn.Module):
+    def __init__(self):
+        super(Basic_Model, self).__init__()
+        self.conv1 = nn.Conv2d(3, 8, 3)
+        self.relu1 = nn.ReLU()
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(8, 16, 3)
+        self.relu2 = nn.ReLU()
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        self.fc0 = nn.Flatten()
+        self.fc1 = nn.Linear(16, 2)
+
+    def forward(self, x):
+        x = self.pool(self.relu1(self.conv1(x)))
+        x = self.pool(self.relu2(self.conv2(x)))
+        x = self.avgpool(x)
+        x = self.fc0(x)
+        x = self.fc1(x)
+        return x
+    
+
+if __name__ == "__main__":
+    model = Basic_Model()
+    data = torch.zeros(1, 3, 32, 32)
+    output = model(data)
+    print(output.shape)
