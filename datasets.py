@@ -30,7 +30,7 @@ class Basic_Dataset(Dataset):
         image = Image.open(image_path)
         if random.random() > 0.5:
             size = image.size
-            mask_size = (size[0] // random.randint(2,4), size[1] // random.randint(1,2))
+            mask_size = (size[0] // random.randint(1,2), size[1] // random.randint(1,2))
             mask = Image.new("RGB", mask_size, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
             paste_area = (random.randint(0, size[0] - mask_size[0]), random.randint(0, size[1] - mask_size[1]))
             image.paste(mask, (paste_area[0], paste_area[1], paste_area[0] + mask_size[0], paste_area[1] + mask_size[1]))

@@ -3,8 +3,11 @@ import torch.nn as nn
 # import torchvision.models as models
 
 class Basic_Model(nn.Module):
-    def __init__(self):
+    def __init__(self, if_export=False):
         super(Basic_Model, self).__init__()
+
+        self.export = if_export
+        
         self.conv1 = nn.Conv2d(3, 8, 3)
         self.relu1 = nn.ReLU()
         self.pool = nn.MaxPool2d(2, 2)
@@ -20,6 +23,8 @@ class Basic_Model(nn.Module):
         x = self.avgpool(x)
         x = self.fc0(x)
         x = self.fc1(x)
+        if self.export:
+            return nn.Softmax(dim=1)(x)
         return x
     
 

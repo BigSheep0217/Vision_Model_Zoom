@@ -13,7 +13,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 model = Basic_Model()
 
-SGD_optim = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+SGD_optim = optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
 
 lr_scheduler = optim.lr_scheduler.CosineAnnealingLR(SGD_optim, T_max=10)
 
@@ -32,16 +32,17 @@ model = model.to(device)
 
 loss_fn = torch.nn.CrossEntropyLoss()
 
-train_dataset = Basic_Dataset(r"D:\Samples\done\sandun\part12\crop\plate_blue")
+train_dataset = Basic_Dataset(r"../../datasets/plate")
 
-train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
 
 best_acc_rate = -1
 
-for epoch in range(start_epoch, 100):
+for epoch in range(start_epoch, 1000):
     acc = 0
     samples = 0
     total_loss = 0
+    model.train()
     for i, (image, label) in enumerate(train_loader):
         image = image.to(device)
         label = label.to(device)
@@ -72,9 +73,5 @@ for epoch in range(start_epoch, 100):
         best_acc_rate = acc_rate
         shutil.copyfile("checkpoints/last.pth", "checkpoints/best.pth")
     
-    torch.save(model.state_dict(), "checkpoints/last.pth")
-    if acc_rate > best_acc_rate:
-        best_acc_rate = acc_rate
-        shutil.copyfile("checkpoints/last.pth", "checkpoints/best.pth")
         
         
