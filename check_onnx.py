@@ -32,7 +32,7 @@ def get_numpy_img_from_image(image, shape):
 
 if __name__ == "__main__":
     session_plate, input_name_plate, output_name_plate = init_onnx_session("checkpoints/mask.onnx")
-    plate = cv2.imread("test_images/1.jpg")
+    plate = cv2.imread("tmp.jpg")
     ori_image, plate = get_numpy_img_from_image(plate, shape=(224, 56))
     plate = cv2.cvtColor(plate, cv2.COLOR_BGR2RGB)
     plate = np.array(plate)

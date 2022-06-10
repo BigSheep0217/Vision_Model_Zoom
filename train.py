@@ -6,12 +6,12 @@ import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
-from datasets import Basic_Dataset
+from datasets import Mask_Dataset
 from model import Basic_Model
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-model = Basic_Model()
+model = Basic_Model().to(device)
 
 SGD_optim = optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
 
@@ -28,13 +28,13 @@ if os.path.exists("checkpoints/last.pth"):
 elif not os.path.exists("checkpoints"):
     os.makedirs("checkpoints")
 
-model = model.to(device)
+# model = model.to(device)
 
 loss_fn = torch.nn.CrossEntropyLoss()
 
-train_dataset = Basic_Dataset(r"../../datasets/plate")
+train_dataset = Mask_Dataset("../../datasets/plate", "mask")
 
-train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)
+train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True, num_workers=8)
 
 best_acc_rate = -1
 
