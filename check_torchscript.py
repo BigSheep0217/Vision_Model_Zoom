@@ -11,7 +11,8 @@ def get_numpy_img_from_image(image, shape):
 
 
 if __name__ == "__main__":
-    plate = cv2.imread("tmp.jpg")
+    plate = cv2.imread("test_images/1.jpg")
+    # plate = cv2.cvtColor(plate, cv2.COLOR_BGRA2BGR)
     model = torch.jit.load('checkpoints/mask.torchscript')
     ori_image, plate = get_numpy_img_from_image(plate, shape=(224, 56))
     plate = cv2.cvtColor(plate, cv2.COLOR_BGR2RGB)

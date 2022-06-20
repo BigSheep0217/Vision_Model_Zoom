@@ -3,7 +3,6 @@ import torch
 from model import Basic_Model
 
 
-
 if __name__ == '__main__':
     model = Basic_Model(if_export=True)
     checkpoint = torch.load('checkpoints/best.pth')

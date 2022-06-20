@@ -105,6 +105,7 @@ class Mask_Dataset(Dataset):
         self.mask_list = os.listdir(mask_path)
         self.transform = torchvision.transforms.Compose(
             [
+                torchvision.transforms.ColorJitter(0.2, 0.2, 0.2, 0.2),
                 torchvision.transforms.ToTensor(),
                 torchvision.transforms.Resize((56, 224)),
                 ]
@@ -136,7 +137,7 @@ class Mask_Dataset(Dataset):
         mask_index = random.randint(1, len(self.mask_list) - 1)
         mask_path = os.path.join(self.mask_path, f"{mask_index}.png")
         dirty_img = cv2.imread(mask_path, cv2.IMREAD_UNCHANGED)
-        dw, dh = math.ceil(224 * random.randint(50, 100)/100.0), math.ceil(56 * random.randint(80, 100)/100.0)
+        dw, dh = math.ceil(224 * random.randint(80, 100)/100.0), math.ceil(56 * random.randint(80, 100)/100.0)
         dirty_img = cv2.resize(dirty_img, (dw, dh))
         M = cv2.getRotationMatrix2D((dirty_img.shape[1] / 2, dirty_img.shape[0] / 2), random.randint(0, 360), 1)
         dirty_img = cv2.warpAffine(dirty_img, M, (dirty_img.shape[1], dirty_img.shape[0]))
